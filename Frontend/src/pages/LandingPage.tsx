@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Signup from "./Signup";
 
 
+
 export default function LandingPage() {
   const navigate = useNavigate();
 
@@ -15,24 +16,29 @@ export default function LandingPage() {
 
       {/* HERO */}
       <section style={styles.hero}>
-        <h1 style={styles.heroTitle}>Rescue Surplus Food. Distribute Safely.</h1>
+   
 
-        <p style={styles.heroSubtitle}>
-          Connect donors with NGOs, ensure food safety checks, and deliver
-          nutrition where it matters most.
-        </p>
+    <h1 style={styles.heroTitle}>
+      Rescue Surplus Food. Distribute Safely.
+    </h1>
 
-        <button
-          style={styles.ctaBtn}
-          onClick={() => navigate("/signup")}
-        >
-          Get Started
-        </button>
+    <p style={styles.heroSubtitle}>
+      Connect donors with NGOs, ensure food safety checks, and deliver
+      nutrition where it matters most.
+    </p>
 
-        <p style={styles.heroSmallText}>
-          No cost. No wastage. Just impact.
-        </p>
-      </section>
+    <button
+      style={styles.ctaBtn}
+      onClick={() => navigate("/signup")}
+    >
+      Get Started
+    </button>
+
+    <p style={styles.heroSmallText}>
+      No cost. No wastage. Just impact.
+    </p>
+  </section>
+
 
       {/* DASHBOARDS */}
       <section style={styles.dualSection}>
