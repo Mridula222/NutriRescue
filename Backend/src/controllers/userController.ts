@@ -42,7 +42,36 @@ const userController = {
       console.error("createUser error:", err)
       return res.status(500).json({ message: "Internal server error" })
     }
+  },
+
+  // GET /users?role=
+getUsersByRole: async (req: Request, res: Response) => {
+  try {
+    const { role } = req.query
+
+    if (!role) {
+      return res.status(400).json({ message: "Role is required" })
+    }
+
+    const query = `
+      SELECT id, name, state, city
+      FROM users
+      WHERE role = $1
+      ORDER BY name
+    `
+
+    const result = await pool.query(query, [role])
+
+    return res.status(200).json({
+      users: result.rows
+    })
+
+  } catch (err) {
+    console.error("getUsersByRole error:", err)
+    return res.status(500).json({ message: "Internal server error" })
   }
+}
+
 
 }
 

@@ -19,6 +19,8 @@ app.get('/healthy', async (_, res) =>{
         res.send("DB OK")
 })
 app.post("/user/create", userController.createUser)
+app.get("/users", userController.getUsersByRole)
+
 
 app.post("/donor/create", donorController.createDonation)
 app.get("/donor/donations/:donorId", donorController.getDonorDonations)
