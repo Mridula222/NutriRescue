@@ -2,11 +2,16 @@ import Navbar from "../components/Navbar";
 import FoodCard from "../components/FoodCard";
 import SectionTitle from "../components/SectionTitle";
 import ImpactCard from "../components/ImpactCard";
+import { useNavigate } from "react-router-dom";
+import Signup from "./Signup";
+
 
 export default function LandingPage() {
+  const navigate = useNavigate();
+
   return (
     <div style={styles.page}>
-      <Navbar/>
+      <Navbar />
 
       {/* HERO */}
       <section style={styles.hero}>
@@ -17,7 +22,10 @@ export default function LandingPage() {
           nutrition where it matters most.
         </p>
 
-        <button style={styles.ctaBtn} onClick={() => alert("Get Started")}>
+        <button
+          style={styles.ctaBtn}
+          onClick={() => navigate("/signup")}
+        >
           Get Started
         </button>
 
@@ -46,23 +54,14 @@ export default function LandingPage() {
 
                 <div style={styles.safeBadge}>Status: Safe for Donation</div>
               </div>
-
-              <img
-                src="https://images.unsplash.com/photo-1523986371872-9d3ba2e2f642?w=400"
-                alt="Food"
-                style={styles.foodImage}
-              />
             </div>
 
-            <button
-              style={styles.postBtn}
-              onClick={() => alert("Post new food")}
-            >
+            <button style={{ ...styles.postBtn, cursor: "default" }} disabled>
               Post New Food +
             </button>
 
             <div style={styles.alertBox}>
-              ⚠️ Expiry Alert: Sandwiches — Expired and Removed
+              ⚠️ Expired items are automatically blocked by safety rules
             </div>
           </div>
         </div>
@@ -78,27 +77,27 @@ export default function LandingPage() {
 
             <div style={styles.listStack}>
               <FoodCard
-                imageUrl="https://images.unsplash.com/photo-1600626333392-34c88d256905?w=400"
+                //imageUrl="veg_biryani.jpg"
                 title="Veg Biryani"
-                meta="20 portions | Freshly cooked | Verified safe"
-                actionLabel="Claim Now"
-                onAction={() => alert("Claimed Veg Biryani")}
+                meta="20 portions | Verified safe"
+                actionLabel="Claim"
+                disabled
               />
 
               <FoodCard
-                imageUrl="https://images.unsplash.com/photo-1604908176997-125f25cc500f?w=400"
+              //imageUrl="grilled.jpg"
                 title="Grilled Chicken"
-                meta="15 servings | Safe to consume"
+                meta="15 servings | Already claimed"
                 actionLabel="Claimed"
                 disabled
               />
 
               <FoodCard
-                imageUrl="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400"
+              //imageUrl="dairy_desert.jpg"
                 title="Dairy Desserts"
-                meta="10 cups | Expires in 1 hour | Priority pickup"
-                actionLabel="Claim Now"
-                onAction={() => alert("Claimed Desserts")}
+                meta="10 cups | Priority pickup"
+                actionLabel="Claim"
+                disabled
               />
             </div>
           </div>
@@ -145,7 +144,6 @@ export default function LandingPage() {
     </div>
   );
 }
-
 const styles: Record<string, React.CSSProperties> = {
   page: {
     minHeight: "100vh",
@@ -258,14 +256,6 @@ const styles: Record<string, React.CSSProperties> = {
     width: "fit-content",
   },
 
-  foodImage: {
-    width: "92px",
-    height: "72px",
-    objectFit: "cover",
-    borderRadius: "14px",
-    border: "1px solid #eee",
-  },
-
   postBtn: {
     marginTop: "14px",
     width: "100%",
@@ -275,7 +265,6 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "12px",
     borderRadius: "10px",
     fontWeight: 800,
-    cursor: "pointer",
   },
 
   alertBox: {

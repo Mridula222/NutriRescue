@@ -1,62 +1,71 @@
-import Navbar from "../components/Navbar";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import Navbar from "../components/Navbar";
+
+const API_BASE = "http://localhost:8000";
 
 export default function NgoLogin() {
   const navigate = useNavigate();
-  const [ngoName, setNgoName] = useState("");
-  const [city, setCity] = useState("");
+  const [ngos, setNgos] = useState<any[]>([]);
+  const [selectedNgo, setSelectedNgo] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  useEffect(() => {
+    fetch(`${API_BASE}/users?role=NGO`)
+      .then(res => res.json())
+      .then(data => setNgos(data.users || []))
+      .catch(() => alert("Failed to load NGOs"));
+  }, []);
+
+  function handleLogin(e: React.FormEvent) {
     e.preventDefault();
 
-    // MVP: fake login
-    if (!ngoName || !city) {
-      alert("Please fill all fields");
+    if (!selectedNgo) {
+      alert("Please select an NGO");
       return;
     }
 
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("role", "NGO");
+    localStorage.setItem("userId", selectedNgo);
+
     navigate("/ngo-dashboard");
-  };
+  }
 
   return (
-    <div style={styles.page}>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
       <Navbar />
 
-      <div style={styles.container}>
-        <div style={styles.card}>
-          <h2 style={styles.title}>NGO Login</h2>
-          <p style={styles.subtitle}>
-            Claim verified donations and distribute safely.
-          </p>
+      <div className="flex justify-center items-center py-20">
+        <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border p-8">
+          <h2 className="text-2xl font-extrabold text-gray-900 mb-4">
+            NGO Login
+          </h2>
 
-          <form onSubmit={handleLogin} style={styles.form}>
-            <label style={styles.label}>NGO Name</label>
-            <input
-              style={styles.input}
-              placeholder="Your NGO name"
-              value={ngoName}
-              onChange={(e) => setNgoName(e.target.value)}
-            />
-
-            <label style={styles.label}>City</label>
-            <input
-              style={styles.input}
-              placeholder="Your city"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
-
-            <button style={styles.primaryBtn} type="submit">
-              Continue
-            </button>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="text-sm font-semibold text-gray-600">
+                Select NGO
+              </label>
+              <select
+                value={selectedNgo}
+                onChange={(e) => setSelectedNgo(e.target.value)}
+                className="mt-2 w-full rounded-2xl border px-4 py-3"
+              >
+                <option value="">Choose NGO</option>
+                {ngos.map((ngo) => (
+                  <option key={ngo.id} value={ngo.id}>
+                    {ngo.name} ({ngo.city})
+                  </option>
+                ))}
+              </select>
+            </div>
 
             <button
-              style={styles.secondaryBtn}
-              type="button"
-              onClick={() => navigate("/")}
+              type="submit"
+              className="w-full rounded-2xl bg-green-600 py-3 font-semibold text-white hover:bg-green-700 transition shadow-md"
             >
-              Back to Home
+              Proceed as NGO
             </button>
           </form>
         </div>
@@ -64,49 +73,3 @@ export default function NgoLogin() {
     </div>
   );
 }
-
-const styles: Record<string, React.CSSProperties> = {
-  page: { minHeight: "100vh", background: "#f7f4ef" },
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    padding: "40px 16px",
-  },
-  card: {
-    width: "100%",
-    maxWidth: "420px",
-    background: "white",
-    borderRadius: "14px",
-    padding: "22px",
-    border: "1px solid #ececec",
-    boxShadow: "0px 6px 16px rgba(0,0,0,0.08)",
-  },
-  title: { margin: 0, fontSize: "24px", fontWeight: 800, color: "#222" },
-  subtitle: { marginTop: "8px", marginBottom: "18px", color: "#666" },
-  form: { display: "flex", flexDirection: "column", gap: "10px" },
-  label: { fontSize: "13px", fontWeight: 700, color: "#444" },
-  input: {
-    padding: "12px",
-    borderRadius: "10px",
-    border: "1px solid #ddd",
-    outline: "none",
-  },
-  primaryBtn: {
-    marginTop: "6px",
-    background: "#2e7d32",
-    color: "white",
-    border: "none",
-    borderRadius: "10px",
-    padding: "12px",
-    fontWeight: 800,
-    cursor: "pointer",
-  },
-  secondaryBtn: {
-    background: "white",
-    border: "1px solid #ddd",
-    borderRadius: "10px",
-    padding: "12px",
-    fontWeight: 800,
-    cursor: "pointer",
-  },
-};

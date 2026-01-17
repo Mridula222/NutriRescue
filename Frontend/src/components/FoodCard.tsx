@@ -1,5 +1,5 @@
 export type FoodCardProps = {
-  imageUrl: string;
+
   title: string;
   meta: string;
   actionLabel: string;
@@ -8,7 +8,7 @@ export type FoodCardProps = {
 };
 
 export default function FoodCard({
-  imageUrl,
+  
   title,
   meta,
   actionLabel,
@@ -17,7 +17,6 @@ export default function FoodCard({
 }: FoodCardProps) {
   return (
     <div style={styles.card}>
-      <img src={imageUrl} alt={title} style={styles.img} />
 
       <div style={styles.info}>
         <div style={styles.title}>{title}</div>
