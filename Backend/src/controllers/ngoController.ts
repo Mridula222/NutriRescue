@@ -11,7 +11,7 @@ const FOOD_SAFETY_HOURS: Record<string, number> = {
   BREADS: 48,
   FRIED_FASTFOOD: 24,
   SWEETS: 24,
-  FRUITS_RAW: 48,
+  FRUITS_RAW: 0,
   PICKLES_CONDIMENTS: 168
 }
 
